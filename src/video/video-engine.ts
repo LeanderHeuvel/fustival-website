@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import '../../out-tsc/src/video-element.js';
+// import '../../out-tsc/src/video/video-element.js';
 
 @customElement('video-engine')
 export class VideoEngine extends LitElement {
