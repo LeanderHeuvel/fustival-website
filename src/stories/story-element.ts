@@ -10,8 +10,8 @@ export class StoryElement extends LitElement {
       padding-bottom: 10px;
     }
     .outer-circle {
-      height: 78px;
-      width: 78px;
+      height: 86px;
+      width: 86px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.06);
       border: 4px solid #333652;
@@ -20,8 +20,8 @@ export class StoryElement extends LitElement {
       margin: auto;
     }
     .highlight {
-      width: 72px;
-      height: 72px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: #e9eaec;
       margin: auto;

@@ -5,7 +5,8 @@ import '../../out-tsc/src/stories/story-element.js';
 
 const white = css`#E9EAEC`;
 const yellow = css`#FAD02C;`;
-const liters = 1400;
+const liters = 0;
+const beer = 600;
 @customElement('main-page')
 export class FustivalApp extends LitElement {
   static styles = css`
@@ -57,20 +58,30 @@ export class FustivalApp extends LitElement {
       z-index: 1;
       width: 12px;
       height: 900px;
-      margin-top: 0px;
+      margin-top: 23px;
       background: rgba(233, 234, 236, 0.8);
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    @keyframes beer-rise {
+      from {
+        height: 0px;
+      }
+      to {
+        height: ${beer}px;
+      }
     }
     .beer {
       position: absolute;
       margin-left: 3px;
       margin-top: 2px;
-      top: 400px;
       width: 6px;
-      height: 580px;
-      bottom: 0;
+      height: 600px;
+      bottom: 0px;
       background: #fad02c;
       border-radius: 1px;
+      animation-name: beer-rise;
+      animation-duration: 0.7s;
+      animation-delay: 0.2s;
     }
     .col {
       margin: 0px;
@@ -87,16 +98,40 @@ export class FustivalApp extends LitElement {
     }
     .row:after {
       content: '';
-      display: table;
+      display: flex;
       clear: both;
     }
     .horizontal-pipe {
       margin-left: 0px;
       margin-right: 0px;
-      margin-top: 20px;
+      margin-top: 23px;
       height: 13px;
+      width: 100%;
       background: rgba(233, 234, 236, 0.8);
-      position: relative;
+    }
+    @keyframes horizontal-beer-rise {
+      from {
+        width: 0px;
+      }
+      to {
+        width: 40px;
+      }
+    }
+    .horizontal-beer {
+      position: absolute;
+      top: 280px;
+      margin-left: 8px;
+      /* left:14px; */
+      background-color: ${yellow};
+      height: 6px;
+      width: 40px;
+      animation-name: horizontal-beer-rise;
+      animation-duration: 0.4s;
+      animation-delay: 0.5s;
+    }
+    .button-connection {
+      margin-top: 185px;
+      margin-left: 0px;
     }
     .video-overlay {
       position: absolute;
@@ -107,6 +142,12 @@ export class FustivalApp extends LitElement {
       backdrop-filter: blur(3px);
       margin-bottom: 0px;
     }
+    .video-overlay:hover {
+      -webkit-filter: blur(15px);
+      -moz-filter: blur(15px);
+      -ms-filter: blur(15px);
+      filter: blur(15px);
+    }
     .stories {
       width: 90%;
       height: 100%;
@@ -116,15 +157,34 @@ export class FustivalApp extends LitElement {
       font-size: 25px;
       margin-top: 10px;
     }
+
     .button {
       border: 2px solid ${yellow};
-      width: 40%;
+      width: 48%;
       height: 43px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 208, 44, 0.5);
       border: 2px solid #fad02c;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       backdrop-filter: blur(2px);
       margin-top: 5px;
+      color: ${yellow};
+      font-family: 'Commissioner';
+      font-size: 25px;
+      text-align: center;
+    }
+    .button:hover {
+      background: rgba(255, 208, 44, 1);
+      color: ${white};
+    }
+
+    .buttons {
+      width: 90%;
+      height: 100%;
+    }
+    .three-col:after {
+      content: '';
+      display: table;
+      clear: both;
     }
   `;
 
@@ -139,9 +199,17 @@ export class FustivalApp extends LitElement {
           <div class="box top">Achelous Fustival</div>
           <div class="row">
             <div class="col left">
-          <div class="horizontal-pipe"></div>   
-              <div class="vertical-pipe"></div>
-              <div class="beer"></div>
+              <div class="row" style="display: flex;">
+                <div class="col" style="width:12px">
+                  <div class="vertical-pipe"></div>
+                  <div class="horizontal-beer"></div>
+                  <div class="beer"></div>
+                </div>
+                <div class="col" style="flex-grow: 1;">
+                  <div class="horizontal-pipe"></div>
+                   <div class="horizontal-pipe button-connection"></div>   
+                </div>
+              </div>
             </div>
             <div class="col right">
               <div class="box beer-count">${liters}L bier gemachtigd</div>
@@ -152,10 +220,11 @@ export class FustivalApp extends LitElement {
                   <div class="col story"><story-element></story-element></div>
                 </div>
               </div>
-              <div class='row'>
-                    <div class="col button"></div>
-                    <div class="col" style="min-width: 30px;"></div>
-                    <div class="col button"></div>
+                <div class='row buttons'>
+                  <div class='three-col'>
+                    <div class="col button">Machtig nu</div>
+                    <div class="col button" style="float: right;">Ervaar</div>
+                  </div>  
                 </div>
               </div>
               <div></div>
