@@ -1,10 +1,19 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { property, customElement } from 'lit/decorators.js';
+import '../../../out-tsc/src/stories/story-page.js';
 
 @customElement('story-element')
 export class StoryElement extends LitElement {
+  @property()
+  name?: string;
+
+  @property()
+  visibility = false;
+
   static styles = css`
     .container {
+      background-color: transparent;
+      border: none;
       width: 100%;
       height: 100%;
       padding-bottom: 10px;
@@ -29,13 +38,18 @@ export class StoryElement extends LitElement {
     }
   `;
 
+  private openStory() {
+    this.visibility = !this.visibility;
+  }
+
   render() {
     return html`
-      <div class="container">
+      <button @click=${this.openStory} class="container">
         <div class="outer-circle">
           <div class="highlight"></div>
         </div>
-      </div>
+      </button>
+      <story-page ?hidden=${!this.visibility} name="vorig jaar"></story-page>
     `;
   }
 }

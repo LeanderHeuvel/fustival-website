@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { property, customElement } from 'lit/decorators.js';
 import '../../out-tsc/src/video/video-engine.js';
 import '../../out-tsc/src/stories/story-element.js';
+import '../../out-tsc/src/barrel-element.js';
 
 const white = css`#E9EAEC`;
 const yellow = css`#FAD02C;`;
@@ -9,6 +10,16 @@ const liters = 0;
 const beer = 600;
 @customElement('main-page')
 export class FustivalApp extends LitElement {
+  @property()
+  barrels = ['Achelous', 'Oud-Achelous', 'Acherowus'];
+
+  @property()
+  logos = [
+    'assets/logos/Achelogo_zonder_achtergrond.png',
+    'assets/logos/Achelogo_zonder_achtergrond.png',
+    'assets/logos/Achelogo_zonder_achtergrond.png',
+  ];
+
   static styles = css`
     div {
       font-family: 'Commissioner';
@@ -18,6 +29,7 @@ export class FustivalApp extends LitElement {
       background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(2px);
       text-align: center;
+      box-shadow: inset -4px 0px 5px black;
     }
     .container {
       z-index: 2;
@@ -157,6 +169,15 @@ export class FustivalApp extends LitElement {
       font-size: 25px;
       margin-top: 10px;
     }
+    .barrels {
+      width: 90%;
+      height: 170px;
+      border: 2px solid ${yellow};
+      z-index: 1;
+      color: ${yellow};
+      font-size: 25px;
+      margin-top: 10px;
+    }
 
     .button {
       border: 2px solid ${yellow};
@@ -185,6 +206,23 @@ export class FustivalApp extends LitElement {
       content: '';
       display: table;
       clear: both;
+    }
+    .horiz-scroll {
+      /* width: 400px; */
+      height: 140px;
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .example::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .example {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
   `;
 
@@ -226,13 +264,29 @@ export class FustivalApp extends LitElement {
                     <div class="col button" style="float: right;">Ervaar</div>
                   </div>  
                 </div>
+                <div class="box barrels">
+                  <div><p1>zij gingen jullie voor</p1></div>
+                  <div class="horiz-scroll">
+                    <div style="width:500px;">
+                    ${this.barrels.map(
+                      (name, index) =>
+                        html`<barrel-element
+                          name=${name}
+                          picture=${this.logos[index]}
+                        ></barrel-element>`
+                    )} 
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div></div>
+              <div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="video-overlay"></div>
+      <story-page ?hidden=${!true} name="vorig jaar"></story-page>
     `;
   }
 }
