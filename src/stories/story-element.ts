@@ -5,7 +5,7 @@ import '../../../out-tsc/src/stories/story-page.js';
 @customElement('story-element')
 export class StoryElement extends LitElement {
   @property()
-  name?: string;
+  content?: string;
 
   @property()
   visibility = false;
@@ -17,6 +17,7 @@ export class StoryElement extends LitElement {
       width: 100%;
       height: 100%;
       padding-bottom: 10px;
+      z-index: 1000;
     }
     .outer-circle {
       height: 86px;
@@ -39,7 +40,10 @@ export class StoryElement extends LitElement {
   `;
 
   private openStory() {
-    this.visibility = !this.visibility;
+    const name = 'openStory';
+    this.dispatchEvent(
+      new CustomEvent(name, { detail: { message: 'picture_index.txt' } })
+    );
   }
 
   render() {

@@ -16,6 +16,7 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
   },
   "dependencies": {
+    "fs": "^0.0.1-security",
     "lit": "^2.0.2",
     "mysql": "^2.18.1"
   },

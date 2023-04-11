@@ -69,7 +69,7 @@ export class FustivalApp extends LitElement {
     .vertical-pipe {
       z-index: 1;
       width: 12px;
-      height: 900px;
+      height: 600px;
       margin-top: 23px;
       background: rgba(233, 234, 236, 0.8);
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -87,7 +87,7 @@ export class FustivalApp extends LitElement {
       margin-left: 3px;
       margin-top: 2px;
       width: 6px;
-      height: 600px;
+      height: 500px;
       bottom: 0px;
       background: #fad02c;
       border-radius: 1px;
@@ -147,7 +147,7 @@ export class FustivalApp extends LitElement {
     }
     .video-overlay {
       position: absolute;
-      height: 1000px;
+      height: 800px;
       width: 100%;
       top: 0px;
       background: rgba(0, 0, 0, 0.4);
@@ -226,6 +226,13 @@ export class FustivalApp extends LitElement {
     }
   `;
 
+  private _openStory(e: CustomEvent) {
+    const name = 'openStory';
+    this.dispatchEvent(
+      new CustomEvent(name, { detail: { message: e.detail.message } })
+    );
+  }
+
   render() {
     return html`
       <video width="100%" autoplay muted loop>
@@ -253,7 +260,9 @@ export class FustivalApp extends LitElement {
               <div class="box beer-count">${liters}L bier gemachtigd</div>
               <div class="box stories">Bekijk
                 <div class="row">
-                  <div class="col story"><story-element></story-element></div>
+                  <div class="col story"><story-element @openStory = ${
+                    this._openStory
+                  }></story-element></div>
                   <div class="col story"><story-element></story-element></div>
                   <div class="col story"><story-element></story-element></div>
                 </div>
@@ -286,7 +295,7 @@ export class FustivalApp extends LitElement {
         </div>
       </div>
       <div class="video-overlay"></div>
-      <story-page ?hidden=${!true} name="vorig jaar"></story-page>
+      
     `;
   }
 }
