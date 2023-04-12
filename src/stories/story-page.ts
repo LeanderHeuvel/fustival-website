@@ -17,6 +17,7 @@ export class StoryPage extends LitElement {
 
   @property({ type: String }) set nameChange(name: string) {
     this.loadInformation(name);
+    this.content = [];
   }
 
   public content: string[] = [];
@@ -30,6 +31,8 @@ export class StoryPage extends LitElement {
     img {
       top: 0;
       left: 0;
+      height: 100%;
+      max-height: 100vh;
       width: 100%;
     }
 
@@ -52,10 +55,45 @@ export class StoryPage extends LitElement {
       font-size: 25px;
       text-align: center;
       z-index: 10000;
+      display: block;
+      margin: 0 auto;
+      margin-top: 10px;
+      top: -100px;
     }
     .button:hover {
       background: rgba(255, 208, 44, 1);
       color: ${white};
+    }
+    div {
+      font-family: 'Commissioner';
+    }
+    .vertical-pipe {
+      position: absolute;
+      z-index: 300;
+      left: 1%;
+      top: 0;
+      bottom: 0;
+      width: 12px;
+      background: rgba(233, 234, 236, 0.8);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    .top {
+      position: relative;
+      z-index: 300;
+      width: 80%;
+      height: 45px;
+      left: 4%;
+      border: 2px solid ${white};
+      color: ${white};
+      font-size: 30px;
+      text-align: center;
+      margin: auto;
+      display: block;
+      margin-top: 10px;
+    }
+    .center-margin {
+      margin-top: auto;
+      width: 98%;
     }
   `;
 
@@ -94,13 +132,23 @@ export class StoryPage extends LitElement {
 
   render() {
     return html`
-      <div style="background-color: black;" class="container">
+      <div style="position: absolute; width:92%">
+        <div class="top">Achelous Fustival</div>
+      </div>
+      <div class="center-margin"><div class="vertical-pipe"></div></div>
+
+      <div style="background-color: black; min-height:800px;" class="container">
         <button @click=${this.nextPicture} class="container clickable">
           <img src=${this.content[this.index]} alt="fustival vorig jaar" />
         </button>
-        <button @click=${this.closeStory} class="button">
-          Machtig een fust
-        </button>
+        <div
+          style="position: absolute; width:100%; bottom: 50px; margin: 0 auto; display: block; z-index:200"
+        >
+          <button @click=${this.closeStory} class="button">
+            Machtig een fust
+          </button>
+          <button @click=${this.closeStory} class="button">Home</button>
+        </div>
       </div>
     `;
   }

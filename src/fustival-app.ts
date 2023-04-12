@@ -36,7 +36,7 @@ export class FustivalApp extends LitElement {
     }
     .topmidstart {
       position: absolute;
-      top: -100%; /* SET THE SLIDER TO BE OFFSCREEN INITIALLY */
+      top: -110%; /* SET THE SLIDER TO BE OFFSCREEN INITIALLY */
       width: 100%;
       height: 800px;
       background: black;

@@ -260,11 +260,15 @@ export class FustivalApp extends LitElement {
               <div class="box beer-count">${liters}L bier gemachtigd</div>
               <div class="box stories">Bekijk
                 <div class="row">
-                  <div class="col story"><story-element @openStory = ${
+                  <div class="col story"><story-element  source="picture_index.txt" @openStory = ${
                     this._openStory
                   }></story-element></div>
-                  <div class="col story"><story-element></story-element></div>
-                  <div class="col story"><story-element></story-element></div>
+                  <div class="col story"><story-element @openStory = ${
+                    this._openStory
+                  } source="preparations.txt" ></story-element></div>
+                  <div class="col story"><story-element @openStory = ${
+                    this._openStory
+                  } source="machtigingen.txt"></story-element></div>
                 </div>
               </div>
                 <div class='row buttons'>
