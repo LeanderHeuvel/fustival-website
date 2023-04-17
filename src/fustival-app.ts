@@ -3,6 +3,7 @@ import { property, customElement } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import '../../out-tsc/src/main-page.js';
 import '../../out-tsc/src/stories/stories-page.js';
+import '../../out-tsc/src/video/video-element.js';
 
 @customElement('fustival-app')
 export class FustivalApp extends LitElement {
@@ -18,7 +19,13 @@ export class FustivalApp extends LitElement {
   storyClasses = { topmidstart: true, topmid: false };
 
   @property()
+  videoClasses = { topmidstart: true, topmid: false };
+
+  @property()
   storyName = 'default';
+
+  @property()
+  videoName = 'default';
 
   static styles = css`
     body {
@@ -36,9 +43,9 @@ export class FustivalApp extends LitElement {
     }
     .topmidstart {
       position: absolute;
-      top: -110%; /* SET THE SLIDER TO BE OFFSCREEN INITIALLY */
+      top: -100%; /* SET THE SLIDER TO BE OFFSCREEN INITIALLY */
       width: 100%;
-      height: 800px;
+      height: 100%;
       background: black;
       transition: 1s;
     }
@@ -47,7 +54,11 @@ export class FustivalApp extends LitElement {
       top: 0px;
     }
     .wrapper {
-      height: 100%;
+      z-index: 1000;
+      height: 100px;
+      width: auto;
+      overflow: hidden;
+      position: relative;
     }
 
     .up {
@@ -57,10 +68,21 @@ export class FustivalApp extends LitElement {
   `;
 
   private async openStory(e: CustomEvent) {
-    this.storyName = e.detail.message;
-    this.storyClasses.topmid = true;
+    if (e.detail.message.includes('video')) {
+      this.videoClasses.topmid = true;
+      this.videoName = e.detail.message;
+    } else {
+      this.storyClasses.topmid = true;
+      this.storyName = e.detail.message;
+    }
+
     this.classes.up = false;
     // this.visibility=false;
+    this.requestUpdate();
+  }
+
+  private async closeVideo() {
+    this.videoClasses.topmid = false;
     this.requestUpdate();
   }
 
@@ -71,7 +93,7 @@ export class FustivalApp extends LitElement {
 
   render() {
     return html`
-      <div class="wrapper">
+      <div class="wrapper1">
         <story-page
           nameChange=${this.storyName}
           id="storypage"
@@ -79,8 +101,13 @@ export class FustivalApp extends LitElement {
           @closeStory=${this.closeStory}
           name="vorig jaar"
         ></story-page>
-      </div>
-      <div class="wrapper">
+        <video-element
+          nameChange="videos_index.txt"
+          id="storypage"
+          class=${classMap(this.videoClasses)}
+          @closeStory=${this.closeVideo}
+          name="vorig jaar"
+        ></video-element>
         <main-page
           class=${classMap(this.classes)}
           ?hidden=${!this.visibility}

@@ -1,9 +1,11 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import html from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import esbuild from 'rollup-plugin-esbuild';
 import { generateSW } from 'rollup-plugin-workbox';
+
 import path from 'path';
 
 export default {
@@ -18,12 +20,14 @@ export default {
   preserveEntrySignatures: false,
 
   plugins: [
+    commonjs(),
     /** Enable using HTML as rollup entrypoint */
     html({
       minify: true,
       injectServiceWorker: true,
       serviceWorkerPath: 'dist/sw.js',
     }),
+    
     /** Resolve bare module imports */
     nodeResolve(),
     /** Minify JS, compile JS to a lower language target */

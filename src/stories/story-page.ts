@@ -3,6 +3,7 @@ import { property, customElement } from 'lit/decorators.js';
 
 const white = css`#E9EAEC`;
 const yellow = css`#FAD02C;`;
+const blurBox = css`40px`;
 
 @customElement('story-page')
 export class StoryPage extends LitElement {
@@ -29,11 +30,14 @@ export class StoryPage extends LitElement {
       z-index: 9;
     }
     img {
-      top: 0;
+      /* top: 0; */
       left: 0;
       height: 100%;
-      max-height: 100vh;
+      object-fit: cover;
+      /* max-height: 100vh; */
+      object-fit: cover;
       width: 100%;
+      margin: auto;
     }
 
     .clickable {
@@ -41,6 +45,9 @@ export class StoryPage extends LitElement {
       background-color: transparent;
       width: 100%;
       height: 100%;
+      margin: auto;
+      display: block;
+      position: absolute;
     }
     .button {
       border: 2px solid ${yellow};
@@ -49,16 +56,16 @@ export class StoryPage extends LitElement {
       background: rgba(255, 208, 44, 0.5);
       border: 2px solid #fad02c;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(2px);
+      background: rgba(256, 256, 256, 0.05);
+      backdrop-filter: blur(${blurBox});
+      -webkit-backdrop-filter: blur(${blurBox});
       color: ${yellow};
       font-family: 'Commissioner';
       font-size: 25px;
       text-align: center;
-      z-index: 10000;
       display: block;
-      margin: 0 auto;
+      margin: auto;
       margin-top: 10px;
-      top: -100px;
     }
     .button:hover {
       background: rgba(255, 208, 44, 1);
@@ -90,6 +97,9 @@ export class StoryPage extends LitElement {
       margin: auto;
       display: block;
       margin-top: 10px;
+      background: rgba(256, 256, 256, 0.05);
+      backdrop-filter: blur(${blurBox});
+      -webkit-backdrop-filter: blur(${blurBox});
     }
     .center-margin {
       margin-top: auto;
@@ -132,17 +142,17 @@ export class StoryPage extends LitElement {
 
   render() {
     return html`
-      <div style="position: absolute; width:92%">
+      <div style="position: absolute; width:100%;">
         <div class="top">Achelous Fustival</div>
       </div>
       <div class="center-margin"><div class="vertical-pipe"></div></div>
 
-      <div style="background-color: black; min-height:800px;" class="container">
+      <div style="background-color: black; min-height:100%;" class="container">
         <button @click=${this.nextPicture} class="container clickable">
           <img src=${this.content[this.index]} alt="fustival vorig jaar" />
         </button>
         <div
-          style="position: absolute; width:100%; bottom: 50px; margin: 0 auto; display: block; z-index:200"
+          style="position:absolute; bottom: 100px;width:100%; margin: 0 auto; display: block; z-index:200"
         >
           <button @click=${this.closeStory} class="button">
             Machtig een fust

@@ -6,8 +6,11 @@ import '../../out-tsc/src/barrel-element.js';
 
 const white = css`#E9EAEC`;
 const yellow = css`#FAD02C;`;
+const darkYellow = css`#bc9700;`;
 const liters = 0;
 const beer = 600;
+const blurBox = css`40px`;
+
 @customElement('main-page')
 export class FustivalApp extends LitElement {
   @property()
@@ -25,11 +28,13 @@ export class FustivalApp extends LitElement {
       font-family: 'Commissioner';
     }
     .box {
+      transform: translate3d(0, 0, 0);
       box-sizing: border-box;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(2px);
+      background: rgba(256, 256, 256, 0.05);
+      backdrop-filter: blur(${blurBox});
+      -webkit-backdrop-filter: blur(${blurBox});
       text-align: center;
-      box-shadow: inset -4px 0px 5px black;
+      /* box-shadow: inset -4px 0px 5px black; */
     }
     .container {
       z-index: 2;
@@ -37,7 +42,6 @@ export class FustivalApp extends LitElement {
       top: 0px;
       left: 0px;
       width: 100%;
-      height: 100%;
     }
     .beer-count {
       width: 90%;
@@ -56,8 +60,7 @@ export class FustivalApp extends LitElement {
       color: ${white};
       font-size: 30px;
       text-align: center;
-      margin: auto;
-      margin-top: 10px;
+      margin: 0 auto;
     }
     .background {
       color: black;
@@ -65,14 +68,18 @@ export class FustivalApp extends LitElement {
     .center-margin {
       margin: auto;
       width: 98%;
+      height: calc(100% - 10px);
+      padding-top: 10px;
     }
     .vertical-pipe {
-      z-index: 1;
       width: 12px;
-      height: 600px;
-      margin-top: 23px;
+      height: calc(100% - 78px);
       background: rgba(233, 234, 236, 0.8);
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(${blurBox});
+      -webkit-backdrop-filter: blur(${blurBox});
+      /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+      bottom: 0;
+      position: absolute;
     }
     @keyframes beer-rise {
       from {
@@ -97,6 +104,7 @@ export class FustivalApp extends LitElement {
     }
     .col {
       margin: 0px;
+      height: 100%;
       float: left;
     }
     .story {
@@ -145,24 +153,30 @@ export class FustivalApp extends LitElement {
       margin-top: 185px;
       margin-left: 0px;
     }
-    .video-overlay {
+    video {
+      top: 0;
+      left: 0;
       position: absolute;
-      height: 800px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .video-overlay {
+      transform: translate3d(0, 0, 0);
+      position: absolute;
+      height: 100%;
       width: 100%;
       top: 0px;
       background: rgba(0, 0, 0, 0.4);
+      -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
       margin-bottom: 0px;
-    }
-    .video-overlay:hover {
-      -webkit-filter: blur(15px);
-      -moz-filter: blur(15px);
-      -ms-filter: blur(15px);
-      filter: blur(15px);
+      z-index: -1;
     }
     .stories {
       width: 90%;
-      height: 100%;
+      height: 150px;
       border: 2px solid ${yellow};
       z-index: 1;
       color: ${yellow};
@@ -186,7 +200,9 @@ export class FustivalApp extends LitElement {
       background: rgba(255, 208, 44, 0.5);
       border: 2px solid #fad02c;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(2px);
+      transform: translate3d(0, 0, 0);
+      -webkit-backdrop-filter: blur(${blurBox});
+      backdrop-filter: blur(${blurBox});
       margin-top: 5px;
       color: ${yellow};
       font-family: 'Commissioner';
@@ -197,10 +213,16 @@ export class FustivalApp extends LitElement {
       background: rgba(255, 208, 44, 1);
       color: ${white};
     }
+    ol {
+      font-size: 20px;
+      text-align: left;
+    }
+    a {
+      color: ${darkYellow};
+    }
 
     .buttons {
       width: 90%;
-      height: 100%;
     }
     .three-col:after {
       content: '';
@@ -228,23 +250,36 @@ export class FustivalApp extends LitElement {
 
   private _openStory(e: CustomEvent) {
     const name = 'openStory';
+    const promise = this.renderRoot.querySelector('video') ?? null ?? undefined;
+    promise?.pause();
     this.dispatchEvent(
       new CustomEvent(name, { detail: { message: e.detail.message } })
     );
   }
 
+  firstUpdated() {}
+
+  private activateBackground() {
+    const promise = this.renderRoot.querySelector('video') ?? null ?? undefined;
+    promise?.play();
+  }
+
   render() {
     return html`
-      <video width="100%" autoplay muted loop>
-        <source src="assets/filmpje.mp4" type="video/mp4" />
+      
+      <div @click=${this.activateBackground} @keyup=${
+      this.activateBackground
+    } class="container">
+      <video width="100%" autoplay muted playsinline loop>
+        <source src="assets/filmpje_nosound.mp4" type="video/mp4" />
         <!-- Your browser does not support the video tag. -->
       </video>
-      <div class="container">
+      <div class="video-overlay"></div>
         <div class="center-margin">
           <div class="box top">Achelous Fustival</div>
-          <div class="row">
+          <div class="row" style="height: calc(100% - 45px);">
             <div class="col left">
-              <div class="row" style="display: flex;">
+              <div class="row" style="display: flex; height:100%;">
                 <div class="col" style="width:12px">
                   <div class="vertical-pipe"></div>
                   <div class="horizontal-beer"></div>
@@ -260,20 +295,20 @@ export class FustivalApp extends LitElement {
               <div class="box beer-count">${liters}L bier gemachtigd</div>
               <div class="box stories">Bekijk
                 <div class="row">
-                  <div class="col story"><story-element  source="picture_index.txt" @openStory = ${
+                  <div class="col story"><story-element  source="picture_index.txt" icon="photo_camera" @openStory = ${
                     this._openStory
                   }></story-element></div>
+                  <div class="col story"><story-element source="videos_index.txt" icon="play_circle" @openStory = ${
+                    this._openStory
+                  } ></story-element></div>
                   <div class="col story"><story-element @openStory = ${
                     this._openStory
-                  } source="preparations.txt" ></story-element></div>
-                  <div class="col story"><story-element @openStory = ${
-                    this._openStory
-                  } source="machtigingen.txt"></story-element></div>
+                  } source="machtigingen.txt" icon="sports_bar"></story-element></div>
                 </div>
               </div>
                 <div class='row buttons'>
                   <div class='three-col'>
-                    <div class="col button">Machtig nu</div>
+                    <div  class="col button">Machtig nu</div>
                     <div class="col button" style="float: right;">Ervaar</div>
                   </div>  
                 </div>
@@ -291,6 +326,16 @@ export class FustivalApp extends LitElement {
                     </div>
                   </div>
                 </div>
+                <div class="box barrels" style="height:auto;">
+                  <div style="background-color: ${white}"><p1>Hoe het werkt</p1></div>
+                  <ol>
+                    <li>Bedenk met wie je een fust wil machtigen.</li>
+                    <li>Machtig een fust via de <a href="https://leden.phocasnijmegen.nl/machtigingen/306">Phocas site</a></li>
+                    <li>Neem een kort filmpje op waarin jullie je fust aanbieden</li>
+                    <li>Kom 18 mei naar de Villa</li>
+                  </ol>
+                </div>
+
               </div>
               <div>
               </div>
@@ -298,7 +343,8 @@ export class FustivalApp extends LitElement {
           </div>
         </div>
       </div>
-      <div class="video-overlay"></div>
+     
+      
       
     `;
   }
